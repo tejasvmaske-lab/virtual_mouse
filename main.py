@@ -1,6 +1,7 @@
 import cv2
 import mediapipe as mp
 import pyautogui as pag
+import math
 
 mp_hands = mp.solutions.hands
 hands = mp_hands.Hands()
@@ -15,6 +16,9 @@ screen_w, screen_h = pag.size()
 prev_x, prev_y = 0, 0
 curr_x, curr_y = 0, 0
 smoothening = 7
+
+x1,x2=0,0
+y1,y2=0,0
 
 while True:
     success, img = cap.read()
@@ -47,6 +51,16 @@ while True:
                     pag.moveTo(curr_x, curr_y)
                     prev_x, prev_y = curr_x, curr_y
 
+                    x2, y2 = cx, cy
+
+                if id == 4:
+                    cv2.circle(img, (cx, cy), 15, (255, 0, 255), -1)
+                    x1, y1 = cx, cy
+
+                length = math.hypot(x2 - x1, y2 - y1)
+                if length < 40:
+                    pag.click()
+                    
     cv2.imshow("Finger Tracking", img)
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
