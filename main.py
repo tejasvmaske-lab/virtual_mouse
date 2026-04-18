@@ -2,6 +2,7 @@ import cv2
 import mediapipe as mp
 import pyautogui as pag
 import math
+import time
 
 mp_hands = mp.solutions.hands
 hands = mp_hands.Hands()
@@ -19,6 +20,9 @@ smoothening = 7
 
 x1,x2=0,0
 y1,y2=0,0
+
+last_click_time = 0
+click_delay = 0.5
 
 while True:
     success, img = cap.read()
@@ -59,7 +63,11 @@ while True:
 
                 length = math.hypot(x2 - x1, y2 - y1)
                 if length < 40:
-                    pag.click()
+                    current_time = time.time()
+
+                    if current_time - last_click_time > click_delay:
+                        pag.click()
+                        last_click_time = current_time
                     
     cv2.imshow("Finger Tracking", img)
 
