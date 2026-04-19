@@ -20,6 +20,7 @@ smoothening = 7
 
 x1,x2=0,0
 y1,y2=0,0
+x3,y3=0,0
 
 last_click_time = 0
 click_delay = 0.5
@@ -44,7 +45,7 @@ while True:
                 cy = int(lm.y * h)
 
         # STEP 3 → Highlight index finger tip
-                if id == 8:
+                if id == 8:   #index finger tip
                     cv2.circle(img, (cx, cy), 15, (255, 0, 255), -1)
 
                     mouse_x = int((w-cx) * screen_w / w)
@@ -57,11 +58,11 @@ while True:
 
                     x2, y2 = cx, cy
 
-                if id == 4:
+                if id == 4:  #thumb tip
                     cv2.circle(img, (cx, cy), 15, (255, 0, 255), -1)
                     x1, y1 = cx, cy
 
-                length = math.hypot(x2 - x1, y2 - y1)
+                length = math.hypot(x2 - x1, y2 - y1)   #left click condition
                 if length < 40:
                     current_time = time.time()
 
@@ -69,6 +70,18 @@ while True:
                         pag.click()
                         last_click_time = current_time
                     
+                if id==12:   #middle finger tip
+                    cv2.circle(img, (cx, cy), 15, (255, 0, 255), -1)
+                    x3,y3 = cx, cy
+
+                length2 = math.hypot(x3-x1, y3-y1)   #right click condition
+                if length2 < 40:
+                    current_time = time.time()
+
+                    if current_time - last_click_time > click_delay:
+                        pag.rightClick()
+                        last_click_time = current_time
+
     cv2.imshow("Finger Tracking", img)
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
