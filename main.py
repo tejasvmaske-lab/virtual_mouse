@@ -27,6 +27,8 @@ x5,y5=0,0
 last_click_time = 0
 click_delay = 0.5
 
+frameR = 100
+
 while True:
     success, img = cap.read()
 
@@ -46,11 +48,14 @@ while True:
                 cx = int(lm.x * w)
                 cy = int(lm.y * h)
 
+                cv2.rectangle(img, (frameR, frameR), (w-frameR, h-frameR), (0,255,0), 2)
+
+
         # STEP 3 → Highlight index finger tip
                 if id == 8:   #index finger tip
 
-                    mouse_x = int((w-cx) * screen_w / w)
-                    mouse_y = int(cy * screen_h / h)
+                    mouse_x = int((w - cx - frameR) * screen_w / (w - 2*frameR))
+                    mouse_y = int((cy - frameR) * screen_h / (h - 2*frameR))
 
                     curr_x = prev_x + (mouse_x - prev_x) / smoothening
                     curr_y = prev_y + (mouse_y - prev_y) / smoothening
