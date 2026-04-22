@@ -29,6 +29,9 @@ click_delay = 0.5
 
 frameR = 100
 
+prev_scroll_y = 0
+scroll_threshold = 15
+
 while True:
     success, img = cap.read()
 
@@ -43,6 +46,17 @@ while True:
 
     # STEP 2 → Loop through all points
             for id, lm in enumerate(handLms.landmark):
+
+                # scroll condition
+                scroll_length = math.hypot(x3 - x2, y3 - y2)
+
+                if y2 != 0 and y3 != 0 and scroll_length < 20:
+                    current_scroll_y = (y2 + y3) // 2
+                    diff = prev_scroll_y - current_scroll_y
+
+                    if abs(diff) > scroll_threshold:
+                        pag.scroll(int(diff * 3))
+                        prev_scroll_y = current_scroll_y
 
                 h, w, c = img.shape
                 cx = int(lm.x * w)
@@ -99,7 +113,7 @@ while True:
                     if current_time - last_click_time > click_delay:
                         pag.doubleClick()
                         last_click_time = current_time
-
+                
     cv2.imshow("Finger Tracking", img)
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
