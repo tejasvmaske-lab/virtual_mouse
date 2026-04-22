@@ -32,6 +32,10 @@ frameR = 100
 prev_scroll_y = 0
 scroll_threshold = 15
 
+pinch_start_time = 0
+dragging = False
+drag_delay = 0.7
+
 while True:
     success, img = cap.read()
 
