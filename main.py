@@ -5,7 +5,7 @@ import math
 import time
 
 mp_hands = mp.solutions.hands
-hands = mp_hands.Hands()
+hands = mp_hands.Hands(0)
 
 mp_draw = mp.solutions.drawing_utils
 
@@ -118,7 +118,7 @@ while True:
                         pag.doubleClick()
                         last_click_time = current_time
                 
-    cv2.imshow("Finger Tracking", img)
+    cv2.imshow("Virtual Mouse Gesture Control", img)
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break

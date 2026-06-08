@@ -111,12 +111,6 @@ virtual_mouse/
 
 ---
 
-## 📸 Demo
-
-Add screenshots or demo GIF here later.
-
----
-
 ## 🙌 Learning Outcomes
 
 This project helped in understanding:
